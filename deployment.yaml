@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eat-the-mem
+  namespace: eat-the-mem
+  labels:
+    app: eat-the-mem
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: eat-the-mem
+  template:
+    metadata:
+      labels:
+        app: eat-the-mem
+    spec:
+      containers:
+        - name: eat-the-mem
+          image: "quay.io/sgibson91/eat-the-mem:7"
+          command:
+            - python
+            - eat-the-mem.py
+          resources:
+            requests:
+              memory: 2G
+            limits:
+              memory: 5G
+        # - name: eat-the-mem-numpy
+        #   image: "quay.io/sgibson91/eat-the-mem:numpy-5"
+        #   command:
+        #     - python
+        #     - eat-the-mem.py
+      nodeSelector:
+        hub.jupyter.org/node-purpose: core
